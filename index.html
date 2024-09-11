@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Guess The Name</title>
+</head>
+<body>
+  <div class="container">
+    <h2>Guess The Name of Baby</h2>
+    <form id="survey-form">
+      <div class="form-group">
+        <label for="name">Your Name (Please Enter Your Middle Name):</label>
+        <input type="text" id="name" name="Name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <label for="guess">Your Guess:</label>
+        <input type="text" id="guess" name="Guess" placeholder="Your Guess" required>
+      </div>
+      <button type="button" id="submit-btn" style="background: linear-gradient(to right, #ff7cd3, #138ea6); font-size: large;">Submit</button>
+    </form>
+  </div>
+  <script>
+    // Function to handle form submission
+    function handleFormSubmit() {
+      const form = document.getElementById('survey-form');
+      const formData = new FormData(form);
+
+      let data = {
+        Name: formData.get('Name'),
+        Guess: formData.get('Guess')
+      };
+
+      fetch('https://script.google.com/macros/s/AKfycbzTL_9VFe0cieebWCNR4HkdIxnsrG7jDxEhmq7gmknRBzwllK7TTQAv00qdLdlEOnnQcA/exec', {
+        method: 'POST',
+        body: new URLSearchParams(data)
+      })
+      .then(response => response.text())
+      .then(result => {
+        console.log('Success:', result);
+        window.location.href = "success.html"; // Redirect to success page
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+
+    document.getElementById('submit-btn').addEventListener('click', function() {
+      handleFormSubmit();
+    });
+  </script>
+</body>
+</html>
